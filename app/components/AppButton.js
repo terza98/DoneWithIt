@@ -1,9 +1,16 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 
-function AppButton({ text }) {
-  return <View style={styles.button}>{text}</View>;
+function AppButton({ text, onPress, color = "primary" }) {
+  return (
+    <TouchableOpacity
+      style={[styles.button, { backgroundColor: colors[color] }]}
+      onPress={onPress}
+    >
+      <Text style={styles.text}>{text}</Text>
+    </TouchableOpacity>
+  );
 }
 const styles = StyleSheet.create({
   button: {
@@ -11,8 +18,15 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
+    padding: 15,
+    width: "100%",
+    marginVertical: 10,
+  },
+  text: {
     color: colors.white,
-    height: 70,
+    fontSize: 18,
+    textTransform: "uppercase",
+    fontWeight: "700",
   },
 });
-export default Button;
+export default AppButton;
