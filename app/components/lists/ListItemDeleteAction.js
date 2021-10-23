@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import colors from "../config/colors";
+import colors from "../../config/colors";
 
 function ListItemDeleteAction({ onPress }) {
   return (
@@ -26,4 +26,5 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
+
 export default ListItemDeleteAction;

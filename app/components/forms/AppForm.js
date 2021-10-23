@@ -1,17 +1,14 @@
 import React from "react";
 import { Formik } from "formik";
-import { View } from "react-native";
 
-function AppForm({ children, initialValues, onSubmit, validationSchema }) {
+function AppForm({ initialValues, onSubmit, validationSchema, children }) {
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
     >
-      {() => {
-        <View style={{ flex: 1 }}>{children}</View>;
-      }}
+      {() => <>{children}</>}
     </Formik>
   );
 }
