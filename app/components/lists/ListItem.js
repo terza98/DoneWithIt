@@ -33,7 +33,7 @@ function ListItem({
               {title}
             </AppText>
             {subTitle && (
-              <AppText style={styles.subTitle} numberOfLines={1}>
+              <AppText style={styles.subTitle} numberOfLines={2}>
                 {subTitle}
               </AppText>
             )}
