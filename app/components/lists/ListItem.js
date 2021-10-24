@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   TouchableHighlight,
+  Platform,
 } from "react-native";
 import AppText from "../AppText";
 import Swipeable from "react-native-gesture-handler/Swipeable";
@@ -28,14 +29,19 @@ function ListItem({
           {IconComponent}
           {image && <Image style={styles.image} source={image} />}
           <View style={styles.detailsContainer}>
-            <AppText style={styles.title}>{title}</AppText>
-            {subTitle && <AppText style={styles.subTitle}>{subTitle}</AppText>}
+            <AppText style={styles.title} numberOfLines={1}>
+              {title}
+            </AppText>
+            {subTitle && (
+              <AppText style={styles.subTitle} numberOfLines={1}>
+                {subTitle}
+              </AppText>
+            )}
           </View>
           {showChevrons && (
             <MaterialCommunityIcons
               name="chevron-right"
-              style={styles.chevron}
-              size={30}
+              size={25}
               color={colors.medium}
             />
           )}
@@ -51,15 +57,11 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: colors.white,
     alignItems: "center",
-    width: "100%",
-  },
-  chevron: {
-    position: "absolute",
-    right: 15,
   },
   detailsContainer: {
     marginLeft: 10,
     justifyContent: "center",
+    flex: 1,
   },
   image: {
     width: 70,
@@ -67,10 +69,12 @@ const styles = StyleSheet.create({
     borderRadius: 35,
   },
   subTitle: {
+    maxWidth: 200,
     color: colors.medium,
   },
   title: {
     fontWeight: "500",
+    maxWidth: 200,
   },
 });
 
