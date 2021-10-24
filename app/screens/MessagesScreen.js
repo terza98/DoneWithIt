@@ -11,16 +11,15 @@ import {
 const initialMessages = [
   {
     id: 1,
-    title:
-      "FNEKFNK NEIUFNLSKndkl nslfnewfkjenwkf newjfbn lwenfkjb kewbfkjb wekbf kewb fkjbnewkf nwe",
-    description:
-      "Dfkewn kfnewk bfkewb fkjbewk bjfkewbfkewjbfkbwfkewbkfjnwekjn fwelnk1",
+    title: "Mosh Hamedani",
+    description: "Hey! Is this item still available?",
     image: require("../assets/mosh.jpg"),
   },
   {
     id: 2,
-    title: "T2",
-    description: "D2",
+    title: "Mosh Hamedani",
+    description:
+      "I'm interested in this item. When will you be able to post it?",
     image: require("../assets/mosh.jpg"),
   },
 ];
@@ -42,13 +41,12 @@ function MessagesScreen(props) {
         renderItem={({ item }) => (
           <ListItem
             title={item.title}
+            subTitle={item.description}
             image={item.image}
             onPress={() => console.log("Message selected", item)}
             renderRightActions={() => (
               <ListItemDeleteAction onPress={() => handleDelete(item)} />
             )}
-            showChevrons={true}
-            subTitle={item.description}
           />
         )}
         ItemSeparatorComponent={ListItemSeparator}

@@ -1,26 +1,18 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  TouchableHighlight,
-  Platform,
-} from "react-native";
-import AppText from "../AppText";
-import Swipeable from "react-native-gesture-handler/Swipeable";
+import { View, StyleSheet, Image, TouchableHighlight } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 
+import Text from "../Text";
 import colors from "../../config/colors";
 
 function ListItem({
-  image,
   title,
+  subTitle,
+  image,
   IconComponent,
   onPress,
   renderRightActions,
-  subTitle,
-  showChevrons,
 }) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
@@ -29,22 +21,20 @@ function ListItem({
           {IconComponent}
           {image && <Image style={styles.image} source={image} />}
           <View style={styles.detailsContainer}>
-            <AppText style={styles.title} numberOfLines={1}>
+            <Text style={styles.title} numberOfLines={1}>
               {title}
-            </AppText>
+            </Text>
             {subTitle && (
-              <AppText style={styles.subTitle} numberOfLines={2}>
+              <Text style={styles.subTitle} numberOfLines={2}>
                 {subTitle}
-              </AppText>
+              </Text>
             )}
           </View>
-          {showChevrons && (
-            <MaterialCommunityIcons
-              name="chevron-right"
-              size={25}
-              color={colors.medium}
-            />
-          )}
+          <MaterialCommunityIcons
+            color={colors.medium}
+            name="chevron-right"
+            size={25}
+          />
         </View>
       </TouchableHighlight>
     </Swipeable>
@@ -53,15 +43,15 @@ function ListItem({
 
 const styles = StyleSheet.create({
   container: {
+    alignItems: "center",
     flexDirection: "row",
     padding: 15,
     backgroundColor: colors.white,
-    alignItems: "center",
   },
   detailsContainer: {
+    flex: 1,
     marginLeft: 10,
     justifyContent: "center",
-    flex: 1,
   },
   image: {
     width: 70,
@@ -69,12 +59,10 @@ const styles = StyleSheet.create({
     borderRadius: 35,
   },
   subTitle: {
-    maxWidth: 200,
     color: colors.medium,
   },
   title: {
     fontWeight: "500",
-    maxWidth: 200,
   },
 });
 
