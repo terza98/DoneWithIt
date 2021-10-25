@@ -6,22 +6,39 @@ import colors from "../config/colors";
 import Screen from "../components/Screen";
 import routes from "../navigation/routes";
 import listingsApi from "../api/listings";
+import AppText from "../components/Text";
+import Button from "../components/Button";
+import ActivityIndicator from "../components/ActivityIndicator";
 
 function ListingsScreen({ navigation }) {
   const [listings, setListings] = useState([]);
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     loadListings();
   }, []);
 
   const loadListings = async () => {
+    setLoading(true);
     const response = await listingsApi.getListings();
-    console.log(response);
+    setLoading(false);
+
+    if (!response.ok) return setError(true);
+
+    setError(false);
     setListings(response.data);
   };
 
   return (
     <Screen style={styles.screen}>
+      {error && (
+        <>
+          <AppText>Couldn't retrieve the listings.</AppText>
+          <Button title="Retry" onPress={loadListings}></Button>
+        </>
+      )}
+      <ActivityIndicator visible={loading} />
       <FlatList
         data={listings}
         keyExtractor={(listing) => listing.id.toString()}
