@@ -1,12 +1,19 @@
-import React, { useEffect, useState } from "react";
-import * as ImagePicker from "expo-image-picker";
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import ListingEditScreen from "./app/screens/ListingEditScreen";
-import { Button, Image } from "react-native";
+import { Button, Text } from "react-native";
 import Screen from "./app/components/Screen";
-import ImageInput from "./app/components/ImageInput";
-import ImageInputList from "./app/components/ImageInputList";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import navigationTheme from "./app/navigation/navigationTheme";
+import AppNavigator from "./app/navigation/AppNavigator";
 
 export default function App() {
-  return <ListingEditScreen />;
+  return (
+    <NavigationContainer theme={navigationTheme}>
+      <AppNavigator />
+    </NavigationContainer>
+  );
 }
