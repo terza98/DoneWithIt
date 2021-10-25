@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Yup from "yup";
 
@@ -11,18 +11,16 @@ import {
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import Screen from "../components/Screen";
 import FormImagePicker from "../components/forms/FormImagePicker";
-import useLocation from "../hooks/useLocation";
-import useApi from "../hooks/useApi";
-import ActivityIndicator from "../components/ActivityIndicator";
 import listingsApi from "../api/listings";
-import AppText from "../components/Text";
+import useLocation from "../hooks/useLocation";
+import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
   price: Yup.number().required().min(1).max(10000).label("Price"),
   description: Yup.string().label("Description"),
   category: Yup.object().required().nullable().label("Category"),
-  images: Yup.array().required().min(1, "Please select at least one image."),
+  images: Yup.array().min(1, "Please select at least one image."),
 });
 
 const categories = [
@@ -84,26 +82,32 @@ const categories = [
 
 function ListingEditScreen() {
   const location = useLocation();
-  const {
-    loading,
-    error,
-    request: createListing,
-  } = useApi(listingsApi.addListing);
+  const [uploadVisible, setUploadVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  const handleSubmit = (listing) => {
-    createListing({ ...listing, location }, (progress) =>
-      console.log(progress)
+  const handleSubmit = async (listing, { resetForm }) => {
+    setProgress(0);
+    setUploadVisible(true);
+    const result = await listingsApi.addListing(
+      { ...listing, location },
+      (progress) => setProgress(progress)
     );
+
+    if (!result.ok) {
+      setUploadVisible(false);
+      return alert("Could not save the listing");
+    }
+
+    resetForm();
   };
 
   return (
     <Screen style={styles.container}>
-      {error && (
-        <>
-          <AppText>Couldn't create listing. Please try again.</AppText>
-        </>
-      )}
-      <ActivityIndicator visible={loading} />
+      <UploadScreen
+        onDone={() => setUploadVisible(false)}
+        progress={progress}
+        visible={uploadVisible}
+      />
       <Form
         initialValues={{
           title: "",
@@ -112,7 +116,7 @@ function ListingEditScreen() {
           category: null,
           images: [],
         }}
-        onSubmit={(values) => handleSubmit(values)}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
