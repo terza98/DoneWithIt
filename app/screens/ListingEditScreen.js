@@ -12,6 +12,10 @@ import CategoryPickerItem from "../components/CategoryPickerItem";
 import Screen from "../components/Screen";
 import FormImagePicker from "../components/forms/FormImagePicker";
 import useLocation from "../hooks/useLocation";
+import useApi from "../hooks/useApi";
+import ActivityIndicator from "../components/ActivityIndicator";
+import listingsApi from "../api/listings";
+import AppText from "../components/Text";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -80,9 +84,26 @@ const categories = [
 
 function ListingEditScreen() {
   const location = useLocation();
+  const {
+    loading,
+    error,
+    request: createListing,
+  } = useApi(listingsApi.addListing);
+
+  const handleSubmit = (listing) => {
+    createListing({ ...listing, location }, (progress) =>
+      console.log(progress)
+    );
+  };
 
   return (
     <Screen style={styles.container}>
+      {error && (
+        <>
+          <AppText>Couldn't create listing. Please try again.</AppText>
+        </>
+      )}
+      <ActivityIndicator visible={loading} />
       <Form
         initialValues={{
           title: "",
@@ -91,7 +112,7 @@ function ListingEditScreen() {
           category: null,
           images: [],
         }}
-        onSubmit={(values) => console.log(location)}
+        onSubmit={(values) => handleSubmit(values)}
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
