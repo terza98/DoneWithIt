@@ -2,4 +2,6 @@ import client from "./client";
 
 const login = (email, password) => client.post("/auth", { email, password });
 
-export { login };
+export default {
+  login,
+};
